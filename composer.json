@@ -1,0 +1,14 @@
+{
+    "name": "team-mercantil/php-messaging-rabbitmq",
+    "description": "Pacote que simplifica a utilizacao do Rabbitmq",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Victor Rodrigues",
+            "email": "victor.rodrigues@nexxera.com"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": "^2.7"
+    }
+}
