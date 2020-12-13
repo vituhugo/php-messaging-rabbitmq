@@ -30,10 +30,10 @@ class RabbitMQAdaptador implements ConsumidorContrato, PublicadorContrato, Mensa
     }
 
     /**
-     * @param callable $callback
+     * @param \Closure $callback
      * @param $consumer_name
      */
-    public function consumir(callable $callback, $consumer_name)
+    public function consumir(\Closure$callback, $consumer_name)
     {
         $config_customer = $this->config->get("consumers.$consumer_name");
         $canal = $this->conector->open($config_customer['connection']);

@@ -8,5 +8,5 @@ use Mensageria\Core\Config;
 
 interface ConsumidorContrato
 {
-    public function consumir(callable $callable, $consumer_name);
+    public function consumir(\Closure $callable, $consumer_name);
 }

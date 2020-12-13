@@ -79,11 +79,11 @@ class Mensageria
     }
 
     /**
-     * @param callable $afterRoute
+     * @param \Closure $afterRoute
      * @param $errorHandler
      * @param null $constumer_name
      */
-    public function consumir(callable $afterRoute, callable $errorHandler = null, $constumer_name = null) {
+    public function consumir(\Closure $afterRoute, \Closure $errorHandler = null, $constumer_name = null) {
         $this->getConsumidor()->consumir($afterRoute, $errorHandler, $constumer_name);
     }
 
@@ -115,7 +115,11 @@ class Mensageria
         $this->publicador = $publicador;
     }
 
-    private function getPublicadorAdaptador() {
+    public function getConfig() {
+        return $this->config;
+    }
+
+    public function getPublicadorAdaptador() {
         if (!$this->publicadorAdaptador && !$this->consumidorAdaptador instanceof PublicadorContrato) {
             return $this->publicadorAdaptador = $this->criarPublicadorAdaptador();
         } if (!$this->publicadorAdaptador) {
@@ -124,7 +128,7 @@ class Mensageria
         return $this->publicadorAdaptador;
     }
 
-    private function getConsumidorAdaptador()
+    public function getConsumidorAdaptador()
     {
         if (!$this->consumidorAdaptador && !$this->publicadorAdaptador instanceof ConsumidorContrato) {
             return $this->consumidorAdaptador = $this->criarConsumidorApdatador();

@@ -23,7 +23,8 @@ class Config implements \ArrayAccess {
 
     public function merge($config) {
         if ($config instanceof Config) $config = $config->toArray();
-        return new Config($this->config + $config);
+
+        return new Config(array_replace_recursive($this->config, $config));
     }
     public function get($path = "", $padrao = null) {
         if ("" === $path) return $this;

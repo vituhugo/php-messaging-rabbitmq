@@ -39,7 +39,7 @@ class Consumidor
         $this->config = $config;
     }
 
-    public function consumir(callable $afterRoute = null, callable $errorHandler = null, $consumer_name = 'default') {
+    public function consumir(\Closure $afterRoute = null, \Closure $errorHandler = null, $consumer_name = 'default') {
         $this->callback = $afterRoute;
         $this->errorHandler = $errorHandler;
         $this->adaptador->consumir(array($this, 'naMensagem'), $consumer_name ?: 'default');
@@ -48,7 +48,7 @@ class Consumidor
     public function naMensagem(AMQPMessage $mensagem) {
         try {
             $resposta = $this->roteador
-                ? $this->roteador->resolver($mensagem->get('routing_key'), array($mensagem))
+                ? $this->roteador->resolver($mensagem->get('routing_key'), $mensagem)
                 : $mensagem;
 
             $this->callback && call_user_func($this->callback, $resposta);

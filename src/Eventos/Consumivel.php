@@ -17,7 +17,7 @@ class Consumivel extends Mensagem
     /**
      * @var array $propriedades
      */
-    protected array $propriedades;
+    protected $propriedades;
 
     /**
      * @var AMQPTable $cabecalhos
@@ -57,7 +57,7 @@ class Consumivel extends Mensagem
     /**
      * @param mixed $cabecalhos
      */
-    public function setHeaders($cabecalhos): void
+    public function setHeaders($cabecalhos)
     {
         $this->cabecalhos = $cabecalhos;
     }
@@ -70,7 +70,7 @@ class Consumivel extends Mensagem
         $this->body = $this->bodyRaw;
         if ($this->contentTypeIgualA('application/json')) {
             $this->body = json_decode($this->bodyRaw, 1);
-            if (empty($body) && !empty($this->bodyRaw)) throw new ErroDeDecodificacaoJSON($this->bodyRaw);
+            if (empty($this->body) && !empty($this->bodyRaw)) throw new ErroDeDecodificacaoJSON($this->bodyRaw);
         }
         return $this->body;
     }
