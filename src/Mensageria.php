@@ -79,11 +79,11 @@ class Mensageria
     }
 
     /**
-     * @param \Closure $afterRoute
-     * @param $errorHandler
+     * @param callable $afterRoute
+     * @param callable $errorHandler
      * @param null $constumer_name
      */
-    public function consumir(\Closure $afterRoute, \Closure $errorHandler = null, $constumer_name = null) {
+    public function consumir($afterRoute, $errorHandler = null, $constumer_name = null) {
         $this->getConsumidor()->consumir($afterRoute, $errorHandler, $constumer_name);
     }
 

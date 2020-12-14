@@ -22,7 +22,11 @@ class RabbitMQAdaptador implements ConsumidorContrato, PublicadorContrato
         self::$msg = $msg;
     }
 
-    public function consumir(\Closure $callable, $consumer_name = null)
+    /**
+     * @param callable $callable
+     * @param null|string $consumer_name
+     */
+    public function consumir($callable, $consumer_name = null)
     {
         $msg = self::$msg ?: new AMQPMessage();
         $callable && $callable($msg);

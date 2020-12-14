@@ -13,7 +13,7 @@ class FabricaCombinador
     }
 
     public static function factoryByActionOrController($key, $controllerOrAction) {
-        if ($controllerOrAction instanceof \Closure) return self::newClosure($key, $controllerOrAction);
+        if (is_callable($controllerOrAction)) return self::newClosure($key, $controllerOrAction);
         strtolower($controllerOrAction);
         if (strstr($controllerOrAction, '@')) {
             return self::newActionWithController($key, $controllerOrAction);
@@ -29,7 +29,12 @@ class FabricaCombinador
         return new Combinador($routePattern, $controller, $action, $parametros);
     }
 
-    protected static function newController($key, string $controller)
+    /**
+     * @param string $key
+     * @param string $controller
+     * @return Combinador
+     */
+    protected static function newController($key, $controller)
     {
         $routePattern = self::getRoutePattern($key);
         $parametros = self::buscadorDeParametros($key);
@@ -67,7 +72,7 @@ class FabricaCombinador
 
     /**
      * @param $key
-     * @return \Closure
+     * @return callable
      */
     protected static function buscadorDeAction($key)
     {
@@ -79,7 +84,12 @@ class FabricaCombinador
         return $action;
     }
 
-    private static function newClosure($key, \Closure $action)
+    /**
+     * @param string $key
+     * @param callable $action
+     * @return Combinador
+     */
+    private static function newClosure($key, $action)
     {
         $routePattern = self::getRoutePattern($key);
         $parametros = self::buscadorDeParametros($key);

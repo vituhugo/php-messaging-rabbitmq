@@ -3,8 +3,8 @@
 
 namespace Mensageria\Core;
 
+use Exception;
 use Mensageria\Core\Contratos\ConsumidorContrato;
-use Mensageria\Core\Fabricas\FabricaConsumivel;
 use Mensageria\Core\Roteador\Roteador;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -39,12 +39,21 @@ class Consumidor
         $this->config = $config;
     }
 
-    public function consumir(\Closure $afterRoute = null, \Closure $errorHandler = null, $consumer_name = 'default') {
+    /**
+     * @param callable $afterRoute
+     * @param callable $errorHandler
+     * @param string $consumer_name
+     */
+    public function consumir($afterRoute = null, $errorHandler = null, $consumer_name = 'default') {
         $this->callback = $afterRoute;
         $this->errorHandler = $errorHandler;
         $this->adaptador->consumir(array($this, 'naMensagem'), $consumer_name ?: 'default');
     }
 
+    /**
+     * @param AMQPMessage $mensagem
+     * @throws Exception
+     */
     public function naMensagem(AMQPMessage $mensagem) {
         try {
             $resposta = $this->roteador
@@ -53,7 +62,7 @@ class Consumidor
 
             $this->callback && call_user_func($this->callback, $resposta);
             $mensagem->delivery_info['channel']->basic_ack($mensagem->delivery_info['delivery_tag']);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->errorHandler && call_user_func($this->errorHandler, $exception);
             if ($this->config->get('consumer.stop_on_error')) throw $exception;
         }

@@ -10,7 +10,7 @@ use Mensageria\Eventos\Publicavel;
  * Class Mensageria
  * @package Mensageria\Fachadas
  *
- * @method static consumir(\Closure $callback = null, \Closure $handleException = null, Config $config = null)
+ * @method static consumir(callable $callback = null, callable $handleException = null, Config $config = null)
  * @method static publicar(Publicavel $publicavel, Config $config = null)
  */
 class Mensageria
@@ -33,7 +33,7 @@ class Mensageria
     /**
      * @param callable|null $resolver
      */
-    public static function registrar(\Closure $resolver = null) {
+    public static function registrar($resolver = null) {
         self::$resolve = function () use ($resolver) {
             return $resolver ? call_user_func($resolver) : new \Mensageria\Mensageria();
         };
