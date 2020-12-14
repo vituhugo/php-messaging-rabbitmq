@@ -46,15 +46,15 @@ class RabbitMQConector implements ConectorContrato
             $config['user'],
             $config['password'],
             $config['vhost'],
-            false,
-            'AMQPLAIN',
-            null,
-            'en_US',
-            3.0,
-            3.0,
-            null,
-            false,
-            15);
+            $config['insist'] ?: false,
+            $config['login_method'] ?: 'AMQPLAIN',
+            $config['login_response'] ?: null,
+            $config['locale'] ?: 'en_US',
+            $config['timeout'] ?: 30.0,
+            $config['read_write_timeout'] ?: 30.0,
+            $config['context'] ?: null,
+            $config['keepalive'] ?: false,
+            $config['heartbeat'] ?: 15);
     }
 
     public function close()

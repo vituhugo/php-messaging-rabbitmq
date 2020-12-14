@@ -24,6 +24,16 @@ return array(
                     'user' => 'guest',
                     'password' => 'guest',
                     'vhost' => '/',
+
+                    'insist' => false,
+                    'login_method' => 'AMQPLAIN',
+                    'login_response' => null,
+                    'locale' => 'en_US',
+                    'timeout' => 30.0,
+                    'read_write_timeout' => 30.0,
+                    'context' => null,
+                    'keepalive' => false,
+                    'heartbeat' => 15,
                 )
             )
         )
