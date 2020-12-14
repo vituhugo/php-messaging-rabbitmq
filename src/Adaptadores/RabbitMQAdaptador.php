@@ -47,8 +47,14 @@ class RabbitMQAdaptador implements ConsumidorContrato, PublicadorContrato, Mensa
             false,
             $callback);
 
+        $count = 0;
         while (true) {
             $canal->wait();
+
+            if ($count++%30 === 0) {
+                echo "\n HEARTBEAT \n";
+                $canal->basic_publish(new AMQPMessage('heartbeat'),'','');
+            }
         }
     }
 
