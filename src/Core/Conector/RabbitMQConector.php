@@ -40,7 +40,21 @@ class RabbitMQConector implements ConectorContrato
         }
 
         $config = $this->config->get("connections.$connection_name");
-        $this->conector = new AMQPStreamConnection($config['host'], $config['port'], $config['user'], $config['password'], $config['vhost']);
+        $this->conector = new AMQPStreamConnection(
+            $config['host'],
+            $config['port'],
+            $config['user'],
+            $config['password'],
+            $config['vhost'],
+            false,
+            'AMQPLAIN',
+            null,
+            'en_US',
+            3.0,
+            3.0,
+            null,
+            false,
+            15);
     }
 
     public function close()
