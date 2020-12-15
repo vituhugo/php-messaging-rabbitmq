@@ -15,9 +15,11 @@ return array(
                 )
             ),
             'publishers' => array(
-                'exchange' => '',
-                'routing_key' => null,
-                'connection' => 'default',
+                'default' => array(
+                    'exchange' => '',
+                    'routing_key' => null,
+                    'connection' => 'default',
+                )
             ),
             'connections' => array(
                 'default' => array(
