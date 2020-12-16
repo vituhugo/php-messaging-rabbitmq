@@ -25,7 +25,7 @@ class Publicavel extends Mensagem implements JsonSerializable
     }
 
     public function jsonSerialize($recursiveLevel = 2) {
-        if ($this->body instanceof JsonSerializable) return $this->body->jsonSerialize($recursiveLevel);
+        if ($this->getBody() instanceof JsonSerializable) return $this->getBody()->jsonSerialize($recursiveLevel);
         return json_decode(json_encode($this->getBody()), 1);
     }
 

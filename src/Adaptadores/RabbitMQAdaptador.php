@@ -64,11 +64,14 @@ class RabbitMQAdaptador implements ConsumidorContrato, PublicadorContrato, Mensa
 
         $body = json_encode($msg->jsonSerialize());
         $properties = ($config_publisher['properties'] ?: array()) + $msg->getProperties();
+
         $canal->basic_publish(
             new AMQPMessage($body, $properties),
             $msg->getExchange() ?: $config_publisher['exchange'],
             $msg->getRoutingKey() ?: $config_publisher['routing_key']
         );
+
+        $this->conector->close();
     }
 
     /**
