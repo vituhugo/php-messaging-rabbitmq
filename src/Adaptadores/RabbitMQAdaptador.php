@@ -59,19 +59,16 @@ class RabbitMQAdaptador implements ConsumidorContrato, PublicadorContrato, Mensa
      */
     public function publicar(Publicavel $msg, $publisher_name)
     {
-        $config_publisher = $this->config->get("publishers.$publisher_name.connection");
+        $config_publisher = $this->config->get("publishers.$publisher_name");
         $canal = $this->conector->open($config_publisher['connection']);
 
         $body = json_encode($msg->jsonSerialize());
         $properties = ($config_publisher['properties'] ?: array()) + $msg->getProperties();
-
         $canal->basic_publish(
             new AMQPMessage($body, $properties),
             $msg->getExchange() ?: $config_publisher['exchange'],
             $msg->getRoutingKey() ?: $config_publisher['routing_key']
         );
-
-        $this->conector->close();
     }
 
     /**
