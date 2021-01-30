@@ -6,6 +6,7 @@ namespace Mensageria\Core;
 use Exception;
 use Mensageria\Core\Contratos\ConsumidorContrato;
 use Mensageria\Core\Roteador\Roteador;
+use Mensageria\Excessoes\AckException;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class Consumidor
@@ -63,8 +64,7 @@ class Consumidor
             $this->callback && call_user_func($this->callback, $resposta);
             $mensagem->delivery_info['channel']->basic_ack($mensagem->delivery_info['delivery_tag']);
         } catch (Exception $exception) {
-            $this->errorHandler && call_user_func($this->errorHandler, $exception);
-            if ($this->config->get('consumer.stop_on_error')) throw $exception;
+            $this->errorHandler && call_user_func($this->errorHandler, $exception, $mensagem);
         }
     }
 }
