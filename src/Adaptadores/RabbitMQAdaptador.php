@@ -38,6 +38,8 @@ class RabbitMQAdaptador implements ConsumidorContrato, PublicadorContrato, Mensa
         $config_customer = $this->config->get("consumers.$consumer_name");
         $canal = $this->conector->open($config_customer['connection']);
 
+        $canal->queue_declare($config_customer['queue_name'], false, true, $config_customer['exclusive'], false);
+
         $canal->basic_consume(
             $config_customer['queue_name'],
             $config_customer['tag'],
